@@ -1,0 +1,148 @@
+# Custom Embed Documentation
+
+## Overview
+The `,ce` command allows you to create rich Discord embeds using a simple text-based syntax. You can create embeds with titles, descriptions, fields, buttons, and more using a straightforward template system.
+
+## Basic Usage
+To create an embed, use the `,ce` command followed by your embed code:
+```
+,ce {embed}{title: My First Embed}{description: This is a cool embed!}
+```
+
+## Syntax Structure
+Every embed must start with `{embed}` to indicate you're creating an embed. You can optionally add `{content: text}` before the embed to send a regular message above it.
+
+**Basic structure:**
+```
+,ce {content: Above the embed}{embed}{title: Embed Title}{description: Embed Description}
+```
+
+## Available Variables
+These variables can be used anywhere in your embed to dynamically insert user and server information:
+
+| Variable | Description | Example Output |
+|----------|-------------|----------------|
+| `{user}` | User's full tag | Claude#1234 |
+| `{user.mention}` | Mentions the user | @Claude |
+| `{user.name}` | Username without discriminator | Claude |
+| `{user.tag}` | User's discriminator | 1234 |
+| `{user.avatar}` | User's avatar URL | https://cdn.discordapp.com/avatars/... |
+| `{user.display_name}` | User's server nickname or username | Claude |
+| `{user.joined_at}` | When user joined the server | Sun, 28 Dec 2024 12:34:56 GMT |
+| `{user.created_at}` | When user's account was created | Sat, 1 Jan 2024 00:00:00 GMT |
+| `{guild.name}` | Server name | Cool Server |
+| `{guild.count}` | Total server members | 1234 |
+| `{guild.icon}` | Server icon URL | https://cdn.discordapp.com/icons/... |
+| `{guild.banner}` | Server banner URL | https://cdn.discordapp.com/banners/... |
+
+## Components
+
+### Title
+Add a title to your embed:
+```
+{title: Your Title Here}
+```
+
+### Description
+Add a description (supports multiple lines):
+```
+{description: This is your description
+It can span multiple lines!}
+```
+
+### Color
+Set the embed's color using hex codes:
+```
+{color: #FF0000}
+```
+
+### Fields
+Add fields to your embed. Fields can be regular or inline:
+
+**Regular field:**
+```
+{field: Field Name && Field Value}
+```
+
+**Inline field:**
+```
+{field:inline: Field Name && Field Value}
+```
+
+### Footer
+Add a footer with optional icon:
+```
+{footer: Footer Text && Icon URL}
+```
+
+### Author
+Add an author section with optional icon and URL:
+```
+{author: Author Name && Icon URL && Author URL}
+```
+
+### Images
+Add images to your embed:
+
+**Main image:**
+```
+{image: Image URL}
+```
+
+**Thumbnail:**
+```
+{thumbnail: Thumbnail URL}
+```
+
+### Buttons
+Add interactive buttons to your embed:
+```
+{button: style && label && action/url && enabled/disabled}
+```
+
+**Button styles:**
+- `primary` - Blurple button
+- `secondary` - Grey button
+- `success` - Green button
+- `danger` - Red button
+- `link` - Link button (requires URL)
+
+**Example buttons:**
+```
+{button: primary && Click Me! && button_action && enabled}
+{button: link && Visit Website && https://example.com && enabled}
+{button: danger && Danger Zone && danger_action && disabled}
+```
+
+## Complete Example
+Here's a full example showcasing multiple features:
+
+```
+,ce {content: Check out this cool embed!}{embed}
+{title: Welcome to Our Server}
+{description: Hey {user.mention}, welcome to {guild.name}!
+
+We're glad to have you here!}
+{color: #5865F2}
+{field:inline: Members && {guild.count}}
+{field:inline: Joined && {user.joined_at}}
+{field: Rules && Make sure to read our rules in #rules}
+{footer: Thanks for joining! && {guild.icon}}
+{button: primary && Get Started && roles && enabled}
+{button: link && Visit Website && https://example.com && enabled}
+```
+
+## Tips & Tricks
+- Use `\n` or actual line breaks in descriptions and fields for multiple lines
+- Color codes can be in hex format (#FF0000) or decimal (16711680)
+- Link buttons require valid URLs starting with `http://` or `https://`
+- Variables can be used in any part of the embed, including buttons and fields
+- The `{content: text}` section is optional and can be omitted if not needed
+
+## Common Issues
+- Missing `{embed}` tag will result in the text being sent as a regular message
+- Invalid color codes will default to Discord's default embed color
+- Invalid URLs for images or icons will be ignored
+- Buttons require all four parameters (style, label, action/url, state)
+
+Remember to properly close all brackets `{}` and use `&&` to separate parameters in fields, footers, authors, and buttons.
